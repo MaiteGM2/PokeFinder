@@ -13,18 +13,22 @@ A pagination system that allows us to go from page to page (Max: 25 Pokémon per
 
 Tasks:
 
+Main structure:
+               Estimate: 1 hour
+               Duration: 1 hour
+
 Pokemon search engine:
                       Estimate: 1:30 hour
                       Duration:
 
 Pokemon card:
               Estimate: 2:30 hours
-              Duration:
+              Duration: 1 hour (in progress)
 
 Pagination system (already included in the API):
-                                                Estimate: 3 hour
+                                                Estimate: 1:30 hour
                                                 Duration:
 
 Layout:
-        Estimate: 4 hours
+        Estimate: 3 hours
         Duration:
