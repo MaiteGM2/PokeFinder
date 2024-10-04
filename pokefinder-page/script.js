@@ -51,4 +51,11 @@ function nextPage() {
     }
 }
 
+function prevPage() {
+    if (currentPage > 1) {
+        currentPage--;
+        fetchPokemons(currentPage);
+    }
+}
+
 fetchPokemons (currentPage);
