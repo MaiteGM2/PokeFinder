@@ -1,29 +1,29 @@
 let currentPage = 1;
 let totalPages = 0;
+let allPokemons = [];
 
 async function fetchPokemons (page = 1) {
     try {
         const quantityPerPage = 25;
         const offset = (page - 1)  * quantityPerPage;
         const response = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${quantityPerPage}`);
-        data = await response.json();
-        totalPages = Math.ceil(data.count / quantityPerPage);
+        const data = await response.json();
 
-        updatePokemons(data, quantityPerPage);
+        totalPages = Math.ceil(data.count / quantityPerPage);
+        allPokemons = data.results;
+
+        updatePokemons(allPokemons);
         updatePaginationControls();
     } catch (error) {
         console.error('Error in fetch API:', error);
     };
 }
 
-async function updatePokemons (data, quantityPerPage) {
+async function updatePokemons (pokemons) {
     const pokemonContainer = document.getElementById ('pokemons-container');
     pokemonContainer.innerHTML = '';
 
-    const pokemons = data.results;
-    const visiblePokemons = pokemons.slice(0, quantityPerPage);
-
-    for(let pokemon of visiblePokemons){
+    for(let pokemon of pokemons){
         try{
             const response = await fetch(pokemon.url);
             const data = await response.json();
@@ -67,5 +67,21 @@ function updatePaginationControls() {
     prevBtn.disabled = currentPage === 1;
     nextBtn.disabled = currentPage === totalPages;
 }
+
+async function searchPokemon() {
+    const inputSearch = document.getElementById('input-search');
+    const inputData = inputSearch.value.trim().toLowerCase();
+
+    if (!inputData) {
+        fetchPokemons();
+        return;
+    }
+
+    const filteredPokemons = allPokemons.filter(pokemon => pokemon.name.toLowerCase().startsWith(inputData));
+    
+    await updatePokemons(filteredPokemons);
+}
+
+document.getElementById('input-search').addEventListener('input', searchPokemon);
 
 fetchPokemons (currentPage);
