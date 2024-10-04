@@ -90,6 +90,27 @@ header{
     margin: 20px 0;
 }
 
+#pagination-controls button {
+    background-color: #faca04;
+    border: none;
+    color: white; 
+    padding: 10px 20px; 
+    margin: 0 10px; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    transition: background-color 0.3s;
+}
+
+#pagination-controls button:hover {
+    background-color:  #c4a30d; 
+}
+
+#pagination-controls button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed; 
+    color: #666;
+}
+
 @media (max-width: 1440px) {
     .pokemon-container {
         grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
