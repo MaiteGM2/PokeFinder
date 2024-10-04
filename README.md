@@ -19,7 +19,7 @@ Main structure:
 
 Pokemon search engine:
                       Estimate: 1:30 hour
-                      Duration:
+                      Duration: 1:30 hour
 
 Pokemon card:
               Estimate: 2:30 hours
@@ -27,7 +27,7 @@ Pokemon card:
 
 Pagination system (already included in the API):
                                                 Estimate: 1:30 hour
-                                                Duration:
+                                                Duration: 2 hours
 
 Layout:
         Estimate: 3 hours
