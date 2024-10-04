@@ -9,12 +9,16 @@ body{
 
 header{
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
     border-radius: 20px;
     background-color: rgba(142, 142, 142, 0.358);
-    text-align: center;
     padding: 30px;
     height: 50px;
+}
+
+.logo {
+    height: 70px;
 }
 
 .pokemon-container {
