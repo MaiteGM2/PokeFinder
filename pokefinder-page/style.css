@@ -83,6 +83,13 @@ header{
     color: #666;
 }
 
+#pagination-controls {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    margin: 20px 0;
+}
+
 @media (max-width: 1440px) {
     .pokemon-container {
         grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
