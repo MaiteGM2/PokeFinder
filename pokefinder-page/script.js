@@ -58,4 +58,14 @@ function prevPage() {
     }
 }
 
+function updatePaginationControls() {
+    const pageNumber = document.getElementById('current-page');
+    const prevBtn = document.getElementById('prev-button');
+    const nextBtn = document.getElementById('next-button');
+
+    pageNumber.textContent = currentPage;
+    prevBtn.disabled = currentPage === 1;
+    nextBtn.disabled = currentPage === totalPages;
+}
+
 fetchPokemons (currentPage);
