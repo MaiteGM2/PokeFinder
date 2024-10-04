@@ -17,7 +17,11 @@
     </header>
     <article class="container">
         <section class="pokemon-container" id="pokemons-container"></section>
-        <section class="pagination"></section>
+        <div id="pagination-controls">
+            <button id="prev-button" onclick="prevPage()">Back</button>
+            <span id="current-page">1</span>
+            <button id="next-button" onclick="nextPage()">Next</button>
+        </div>
     </article>
     <script src="script.js"></script>
 </body>
