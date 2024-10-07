@@ -169,7 +169,7 @@ function resetToInitialState() {
 }
 
 async function showLoader(){
-    document.getElementById('load').style.display = "block";
+    document.getElementById('load').style.display = "flex";
     document.getElementById('container').style.display = "none";
 }
 
