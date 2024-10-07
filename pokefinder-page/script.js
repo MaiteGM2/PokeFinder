@@ -1,13 +1,15 @@
 let currentPage = 1;
 let totalPages = 0;
 let allPokemons = [];
+let pokemonsOnPage = [];
+let filteredPokemons = [];
 
 async function fetchPokemons (page) {
     try {
         const dataPokemonsPagination = await fetchPokemonsPagination(page);
 
         const countPokemons = dataPokemonsPagination.count;
-        const pokemonsOnPage = dataPokemonsPagination.pokemons;
+        pokemonsOnPage = dataPokemonsPagination.pokemons;
 
         if(allPokemons.length === 0){
             fetchAllPokemons(countPokemons);
@@ -88,14 +90,22 @@ async function updatePokemons (pokemons) {
 function nextPage() {
     if (currentPage < totalPages) {
         currentPage++;
-        fetchPokemons(currentPage);
+        if (filteredPokemons.length > 0) {
+            pokemonsPagination(filteredPokemons);
+        } else {
+            fetchPokemons(currentPage); 
+        }
     }
 }
 
 function prevPage() {
     if (currentPage > 1) {
         currentPage--;
-        fetchPokemons(currentPage);
+        if (filteredPokemons.length > 0) {
+            pokemonsPagination(filteredPokemons);
+        } else {
+            fetchPokemons(currentPage);
+        }
     }
 }
 
@@ -112,17 +122,40 @@ function updatePaginationControls() {
 async function searchPokemon() {
     const inputSearch = document.getElementById('input-search');
     const inputData = inputSearch.value.trim().toLowerCase();
+    filteredPokemons = [];
 
     if (!inputData) {
-        fetchPokemons();
+        currentPage = 1;
+        fetchPokemons(currentPage);
         return;
     }
 
-    const filteredPokemons = pokemonsOnPage.filter(pokemon => pokemon.name.toLowerCase().startsWith(inputData));
+    filteredPokemons = allPokemons.filter(pokemon => {
+        const name = pokemon.name.toLowerCase();
+        return name.includes(inputData)
+    });
+
+    pokemonsPagination(filteredPokemons);
+}
+
+function pokemonsPagination(pokemons){
+    const quantityPerPage = 25;
+
+    pokemonsOnPage = [];
     
-    await updatePokemons(filteredPokemons);
+    const offset = (currentPage - 1) * quantityPerPage;
+    const limit = currentPage * quantityPerPage;
+
+    for (let i = offset; i < limit && i < pokemons.length; i++) {
+        pokemonsOnPage.push(pokemons[i]);
+    }
+    
+    totalPages = Math.ceil(pokemons.length / quantityPerPage);
+
+    updatePaginationControls();
+    updatePokemons(pokemonsOnPage);
 }
 
 document.getElementById('input-search').addEventListener('input', searchPokemon);
 
-fetchPokemons (currentPage);
+window.onload = fetchPokemons (currentPage);
