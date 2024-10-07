@@ -6,20 +6,36 @@ async function fetchPokemons (page = 1) {
     try {
         const quantityPerPage = 25;
         const offset = (page - 1)  * quantityPerPage;
-        const response = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${quantityPerPage}`);
-        const data = await response.json();
 
-        totalPages = Math.ceil(data.count / quantityPerPage);
-        allPokemons = data.results;
+        const dataPokemonsPagination = await fetchPokemonsPagination(quantityPerPage, offset);
 
-        updatePokemons(allPokemons);
-        updatePaginationControls();
+        const countPokemons = dataPokemonsPagination.count;
+        const pokemonsOnPage = dataPokemonsPagination.pokemons;
+
+/*     
+        updatePokemons(pokemonsOnPage);
+        updatePaginationControls(); */
     } catch (error) {
         console.error('Error in fetch API:', error);
     };
 }
 
-async function updatePokemons (pokemons) {
+async function fetchPokemonsPagination(quantityPerPage, offset) {
+    try{
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${quantityPerPage}`);
+        const data = await response.json();
+        const pokemons = data.results;
+        const count = data.count;
+        totalPages = Math.ceil(count / quantityPerPage);
+    
+        return {pokemons, count};
+
+    } catch (error) {
+        console.error('Error in fetch pokemons pagination:', error);
+    }
+}
+
+/* async function updatePokemons (pokemons) {
     const pokemonContainer = document.getElementById ('pokemons-container');
     pokemonContainer.innerHTML = '';
 
@@ -77,11 +93,11 @@ async function searchPokemon() {
         return;
     }
 
-    const filteredPokemons = allPokemons.filter(pokemon => pokemon.name.toLowerCase().startsWith(inputData));
+    const filteredPokemons = pokemonsOnPage.filter(pokemon => pokemon.name.toLowerCase().startsWith(inputData));
     
     await updatePokemons(filteredPokemons);
 }
 
-document.getElementById('input-search').addEventListener('input', searchPokemon);
+document.getElementById('input-search').addEventListener('input', searchPokemon); */
 
 fetchPokemons (currentPage);
