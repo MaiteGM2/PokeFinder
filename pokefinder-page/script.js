@@ -130,6 +130,24 @@ async function searchPokemon() {
     pokemonsPagination(filteredPokemons);
 }
 
+function pokemonsPagination(pokemons){
+    const quantityPerPage = 25;
+
+    pokemonsOnPage = [];
+    
+    const offset = (currentPage - 1) * quantityPerPage;
+    const limit = currentPage * quantityPerPage;
+
+    for (let i = offset; i < limit && i < pokemons.length; i++) {
+        pokemonsOnPage.push(pokemons[i]);
+    }
+
+    totalPages = Math.ceil(pokemons.length / quantityPerPage);
+
+    updatePaginationControls();
+    updatePokemons(pokemonsOnPage);
+}
+
 document.getElementById('input-search').addEventListener('input', searchPokemon);
 
-fetchPokemons (currentPage);
+window.onload = fetchPokemons (currentPage);
