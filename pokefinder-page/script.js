@@ -6,6 +6,7 @@ let filteredPokemons = [];
 
 async function fetchPokemons (page) {
     try {
+        await showLoader();
         const dataPokemonsPagination = await fetchPokemonsPagination(page);
 
         const countPokemons = dataPokemonsPagination.count;
@@ -17,6 +18,7 @@ async function fetchPokemons (page) {
 
         updatePokemons(pokemonsOnPage);
         updatePaginationControls();
+        hiddenLoader();
     } catch (error) {
         console.error('Error in fetch API:', error);
     };
@@ -124,6 +126,8 @@ function searchPokemon() {
     const inputData = inputSearch.value.trim().toLowerCase();
     filteredPokemons = [];
     currentPage = 1;
+  
+    showLoader();
 
     if (!inputData) {
         fetchPokemons(currentPage);
@@ -154,6 +158,7 @@ function pokemonsPagination(pokemons){
 
     updatePaginationControls();
     updatePokemons(pokemonsOnPage);
+    hiddenLoader();
 }
 
 function resetToInitialState() {
@@ -161,6 +166,16 @@ function resetToInitialState() {
     currentPage = 1;
     document.getElementById('input-search').value = '';
     fetchPokemons(currentPage);
+}
+
+async function showLoader(){
+    document.getElementById('load').style.display = "flex";
+    document.getElementById('container').style.display = "none";
+}
+
+async function hiddenLoader(){
+    document.getElementById('load').style.display = "none";
+    document.getElementById('container').style.display = "block";
 }
 
 document.getElementById('logo').addEventListener('click', resetToInitialState);
