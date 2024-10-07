@@ -1,13 +1,14 @@
 let currentPage = 1;
 let totalPages = 0;
 let allPokemons = [];
+let pokemonsOnPage = [];
 
 async function fetchPokemons (page) {
     try {
         const dataPokemonsPagination = await fetchPokemonsPagination(page);
 
         const countPokemons = dataPokemonsPagination.count;
-        const pokemonsOnPage = dataPokemonsPagination.pokemons;
+        pokemonsOnPage = dataPokemonsPagination.pokemons;
 
         if(allPokemons.length === 0){
             fetchAllPokemons(countPokemons);
