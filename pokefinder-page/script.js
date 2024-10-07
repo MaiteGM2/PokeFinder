@@ -2,12 +2,9 @@ let currentPage = 1;
 let totalPages = 0;
 let allPokemons = [];
 
-async function fetchPokemons (page = 1) {
+async function fetchPokemons (page) {
     try {
-        const quantityPerPage = 25;
-        const offset = (page - 1)  * quantityPerPage;
-
-        const dataPokemonsPagination = await fetchPokemonsPagination(quantityPerPage, offset);
+        const dataPokemonsPagination = await fetchPokemonsPagination(page);
 
         const countPokemons = dataPokemonsPagination.count;
         const pokemonsOnPage = dataPokemonsPagination.pokemons;
@@ -23,8 +20,10 @@ async function fetchPokemons (page = 1) {
     };
 }
 
-async function fetchPokemonsPagination(quantityPerPage, offset) {
+async function fetchPokemonsPagination(page = 1) {
     try{
+        const quantityPerPage = 25;
+        const offset = (page - 1)  * quantityPerPage;
         const response = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${quantityPerPage}`);
         const data = await response.json();
         const pokemons = data.results;
