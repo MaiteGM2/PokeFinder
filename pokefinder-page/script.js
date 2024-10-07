@@ -48,15 +48,27 @@ async function fetchAllPokemons(countPokemons) {
     }
 }
 
+async function fetchOnePokemon(pokemon) {
+    try{
+        const response = await fetch(pokemon.url);
+        const data = await response.json();
+        
+        return data;
+    } catch (error){
+        console.error('Error in fetch on pokemon:', error);
+    }
+}
+
 async function updatePokemons (pokemons) {
     const pokemonContainer = document.getElementById ('pokemons-container');
     pokemonContainer.innerHTML = '';
 
     for(let pokemon of pokemons){
         try{
-            const response = await fetch(pokemon.url);
-            const data = await response.json();
-            const type = data.types[0].type.name;
+            const data = await fetchOnePokemon(pokemon);
+            const type = data.types.map((types) => {
+                return types.type.name;
+              });
 
             const card =  `
                 <div class="pokemon-card">
