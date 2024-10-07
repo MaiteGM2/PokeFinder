@@ -66,7 +66,9 @@ async function updatePokemons (pokemons) {
     for(let pokemon of pokemons){
         try{
             const data = await fetchOnePokemon(pokemon);
-            const type = data.types[0].type.name;
+            const type = data.types.map((types) => {
+                return types.type.name;
+              });
 
             const card =  `
                 <div class="pokemon-card">
