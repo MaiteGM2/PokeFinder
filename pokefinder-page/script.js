@@ -12,9 +12,9 @@ async function fetchPokemons (page) {
         if(allPokemons.length === 0){
             fetchAllPokemons(countPokemons);
         }
-/*     
+
         updatePokemons(pokemonsOnPage);
-        updatePaginationControls(); */
+        updatePaginationControls();
     } catch (error) {
         console.error('Error in fetch API:', error);
     };
@@ -48,7 +48,7 @@ async function fetchAllPokemons(countPokemons) {
     }
 }
 
-/* async function updatePokemons (pokemons) {
+async function updatePokemons (pokemons) {
     const pokemonContainer = document.getElementById ('pokemons-container');
     pokemonContainer.innerHTML = '';
 
@@ -111,6 +111,6 @@ async function searchPokemon() {
     await updatePokemons(filteredPokemons);
 }
 
-document.getElementById('input-search').addEventListener('input', searchPokemon); */
+document.getElementById('input-search').addEventListener('input', searchPokemon);
 
 fetchPokemons (currentPage);
