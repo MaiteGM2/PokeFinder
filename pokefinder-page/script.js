@@ -123,9 +123,9 @@ function searchPokemon() {
     const inputSearch = document.getElementById('input-search');
     const inputData = inputSearch.value.trim().toLowerCase();
     filteredPokemons = [];
+    currentPage = 1;
 
     if (!inputData) {
-        currentPage = 1;
         fetchPokemons(currentPage);
         return;
     }
