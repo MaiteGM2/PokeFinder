@@ -90,7 +90,11 @@ async function updatePokemons (pokemons) {
 function nextPage() {
     if (currentPage < totalPages) {
         currentPage++;
-        fetchPokemons(currentPage);
+        if (filteredPokemons.length > 0) {
+            pokemonsPagination(filteredPokemons);
+        } else {
+            fetchPokemons(currentPage); 
+        }
     }
 }
 
