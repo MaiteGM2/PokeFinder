@@ -2,6 +2,7 @@ let currentPage = 1;
 let totalPages = 0;
 let allPokemons = [];
 let pokemonsOnPage = [];
+let filteredPokemons = [];
 
 async function fetchPokemons (page) {
     try {
@@ -113,15 +114,20 @@ function updatePaginationControls() {
 async function searchPokemon() {
     const inputSearch = document.getElementById('input-search');
     const inputData = inputSearch.value.trim().toLowerCase();
+    filteredPokemons = [];
 
     if (!inputData) {
+        currentPage = 1;
         fetchPokemons(currentPage);
         return;
     }
 
-    const filteredPokemons = pokemonsOnPage.filter(pokemon => pokemon.name.toLowerCase().startsWith(inputData));
-    
-    await updatePokemons(filteredPokemons);
+    filteredPokemons = allPokemons.filter(pokemon => {
+        const name = pokemon.name.toLowerCase();
+        return name.includes(inputData)
+    });
+
+    pokemonsPagination(filteredPokemons);
 }
 
 document.getElementById('input-search').addEventListener('input', searchPokemon);
