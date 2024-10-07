@@ -101,7 +101,11 @@ function nextPage() {
 function prevPage() {
     if (currentPage > 1) {
         currentPage--;
-        fetchPokemons(currentPage);
+        if (filteredPokemons.length > 0) {
+            pokemonsPagination(filteredPokemons);
+        } else {
+            fetchPokemons(currentPage);
+        }
     }
 }
 
@@ -145,7 +149,7 @@ function pokemonsPagination(pokemons){
     for (let i = offset; i < limit && i < pokemons.length; i++) {
         pokemonsOnPage.push(pokemons[i]);
     }
-
+    
     totalPages = Math.ceil(pokemons.length / quantityPerPage);
 
     updatePaginationControls();
