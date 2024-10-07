@@ -2,21 +2,50 @@ let currentPage = 1;
 let totalPages = 0;
 let allPokemons = [];
 
-async function fetchPokemons (page = 1) {
+async function fetchPokemons (page) {
     try {
-        const quantityPerPage = 25;
-        const offset = (page - 1)  * quantityPerPage;
-        const response = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${quantityPerPage}`);
-        const data = await response.json();
+        const dataPokemonsPagination = await fetchPokemonsPagination(page);
 
-        totalPages = Math.ceil(data.count / quantityPerPage);
-        allPokemons = data.results;
+        const countPokemons = dataPokemonsPagination.count;
+        const pokemonsOnPage = dataPokemonsPagination.pokemons;
 
-        updatePokemons(allPokemons);
+        if(allPokemons.length === 0){
+            fetchAllPokemons(countPokemons);
+        }
+
+        updatePokemons(pokemonsOnPage);
         updatePaginationControls();
     } catch (error) {
         console.error('Error in fetch API:', error);
     };
+}
+
+async function fetchPokemonsPagination(page = 1) {
+    try{
+        const quantityPerPage = 25;
+        const offset = (page - 1)  * quantityPerPage;
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${quantityPerPage}`);
+        const data = await response.json();
+        const pokemons = data.results;
+        const count = data.count;
+        totalPages = Math.ceil(count / quantityPerPage);
+    
+        return {pokemons, count};
+
+    } catch (error) {
+        console.error('Error in fetch pokemons pagination:', error);
+    }
+}
+
+async function fetchAllPokemons(countPokemons) {
+    try{
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=${countPokemons}`);
+        const data = await response.json();
+        allPokemons = data.results;
+
+    } catch (error) {
+        console.error('Error in fetch all pokemons:', error);
+    }
 }
 
 async function updatePokemons (pokemons) {
@@ -77,7 +106,7 @@ async function searchPokemon() {
         return;
     }
 
-    const filteredPokemons = allPokemons.filter(pokemon => pokemon.name.toLowerCase().startsWith(inputData));
+    const filteredPokemons = pokemonsOnPage.filter(pokemon => pokemon.name.toLowerCase().startsWith(inputData));
     
     await updatePokemons(filteredPokemons);
 }
