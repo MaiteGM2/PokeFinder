@@ -156,6 +156,15 @@ function pokemonsPagination(pokemons){
     updatePokemons(pokemonsOnPage);
 }
 
+function resetToInitialState() {
+    pokemonsFilter = [];
+    currentPage = 1;
+    document.getElementById('input-search').value = '';
+    fetchPokemons(currentPage);
+}
+
+document.getElementById('logo').addEventListener('click', resetToInitialState);
+
 document.getElementById('input-search').addEventListener('input', searchPokemon);
 
 window.onload = fetchPokemons (currentPage);
