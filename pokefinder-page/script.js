@@ -12,6 +12,9 @@ async function fetchPokemons (page = 1) {
         const countPokemons = dataPokemonsPagination.count;
         const pokemonsOnPage = dataPokemonsPagination.pokemons;
 
+        if(allPokemons.length === 0){
+            fetchAllPokemons(countPokemons);
+        }
 /*     
         updatePokemons(pokemonsOnPage);
         updatePaginationControls(); */
@@ -32,6 +35,17 @@ async function fetchPokemonsPagination(quantityPerPage, offset) {
 
     } catch (error) {
         console.error('Error in fetch pokemons pagination:', error);
+    }
+}
+
+async function fetchAllPokemons(countPokemons) {
+    try{
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=${countPokemons}`);
+        const data = await response.json();
+        allPokemons = data.results;
+
+    } catch (error) {
+        console.error('Error in fetch all pokemons:', error);
     }
 }
 
