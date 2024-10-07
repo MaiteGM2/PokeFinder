@@ -69,6 +69,7 @@ async function updatePokemons (pokemons) {
 
     for(let pokemon of pokemons){
         try{
+            showLoader();
             const data = await fetchOnePokemon(pokemon);
             const type = data.types.map((types) => {
                 return types.type.name;
@@ -87,6 +88,7 @@ async function updatePokemons (pokemons) {
             console.error('Error getting Pokémon details:', error);
         }
     }
+    hiddenLoader();
 }
 
 function nextPage() {
