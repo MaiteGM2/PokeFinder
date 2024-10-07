@@ -115,7 +115,7 @@ async function searchPokemon() {
     const inputData = inputSearch.value.trim().toLowerCase();
 
     if (!inputData) {
-        fetchPokemons();
+        fetchPokemons(currentPage);
         return;
     }
 
