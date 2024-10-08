@@ -15,8 +15,8 @@ async function fetchPokemons (page) {
         if(allPokemons.length === 0){
             fetchAllPokemons(countPokemons);
         }
-
-        updatePokemons(pokemonsOnPage);
+        
+        await updatePokemons(pokemonsOnPage);
         updatePaginationControls();
         hiddenLoader();
     } catch (error) {
